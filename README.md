@@ -27,8 +27,7 @@ If your game need an advanced protection you can contact us and we proud to prov
 <a href="mailto:hello@flowsourcebox.co">Support Email & Consulting</a>
 
 ## Installation
-
-## Get Started
+Download and Import larest package from <a href="https://github.com/TinyPlay/PixelSecurityToolkit/releases">Releases Page</a>
 
 ## Documentation
 Visit our <a href="https://github.com/TinyPlay/PixelSecurityToolkit/wiki">Wiki</a> to enjoy the full documentation.
