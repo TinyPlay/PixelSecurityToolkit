@@ -14,6 +14,7 @@
 
 using System;
 using PixelSecurity;
+using PixelSecurity.Modules.InjectionProtector;
 using PixelSecurity.Modules.SecuredMemory;
 using UnityEngine;
 
@@ -38,10 +39,16 @@ namespace Demo.Scripts
         private void Start()
         {
             // Setup Pixel Guard Modules
-            PixelGuard.Instance.SetupModule<SecuredMemory>(new SecuredMemory(new SecuredMemory.ModuleOptions
-            {
-                
-            }));
+            PixelGuard.Instance.SetupModule<SecuredMemory>(new SecuredMemory(
+                new SecuredMemory.ModuleOptions
+                {
+                    
+                }));
+            PixelGuard.Instance.SetupModule<InjectionProtector>(new InjectionProtector(
+                new InjectionProtector.ModuleOptions
+                {
+
+                }));
             
         }
     }

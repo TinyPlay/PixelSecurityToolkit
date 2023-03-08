@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 /*
  * Pixel Security Toolkit
@@ -21,8 +22,6 @@ namespace PixelSecurity.Util
     [DisallowMultipleComponent]
     internal class PixelMono : MonoBehaviour
     {
-        private PixelGuard _securityInstance = null;
-
         /// <summary>
         /// On Awake
         /// </summary>
@@ -40,14 +39,21 @@ namespace PixelSecurity.Util
             // Infinite Life for this Object
             DontDestroyOnLoad(this);
         }
-        
+
         /// <summary>
-        /// Setup Pixel Mono
+        /// On Update
         /// </summary>
-        /// <param name="securityInstance"></param>
-        public void Setup(PixelGuard securityInstance)
+        private void Update()
         {
-            
+            PixelGuard.Instance.CallGameLoop(false, Time.deltaTime);
+        }
+
+        /// <summary>
+        /// On Fixed Update
+        /// </summary>
+        private void FixedUpdate()
+        {
+            PixelGuard.Instance.CallGameLoop(true, Time.fixedDeltaTime);
         }
     }
 }

@@ -39,10 +39,16 @@ namespace PixelSecurity{
         // Mono Wrapper
         private PixelMono _monoWrapper = null;
         private List<ISecurityModule> _modules = new List<ISecurityModule>();
-        
+
         // Security Events
         public delegate void SecurityWarningHandler(string message, ISecurityModule module = null);     // Security Events
         [CanBeNull] public event SecurityWarningHandler OnSecurityMessage;                              // Security Message
+        
+        // Lifecycle Events
+        public delegate void GameLoopUpdate(float deltaTime);
+        public delegate void GameLoopFixedUpdate(float deltaTime);
+        [CanBeNull] public event GameLoopUpdate OnLoopUpdate;
+        [CanBeNull] public event GameLoopFixedUpdate OnLoopFixedUpdate;
 
         /// <summary>
         /// Security Wrapper Constructor
@@ -64,7 +70,6 @@ namespace PixelSecurity{
             // Create Mono Wrapper
             GameObject _wrapperObject = new GameObject("__PIXEL_WRAPPER__");
             _monoWrapper = _wrapperObject.AddComponent<PixelMono>();
-            _monoWrapper.Setup(this);
         }
 
         /// <summary>
@@ -132,6 +137,19 @@ namespace PixelSecurity{
         public void CreateSecurityWarning(string message, ISecurityModule module = null)
         {
             OnSecurityMessage?.Invoke(message, module);
+        }
+
+        /// <summary>
+        /// Call Game Loop
+        /// </summary>
+        /// <param name="isFixed"></param>
+        /// <param name="deltaTime"></param>
+        public void CallGameLoop(bool isFixed, float deltaTime)
+        {
+            if(isFixed)
+                OnLoopFixedUpdate?.Invoke(deltaTime);
+            else
+                OnLoopUpdate?.Invoke(deltaTime);
         }
     }
 }

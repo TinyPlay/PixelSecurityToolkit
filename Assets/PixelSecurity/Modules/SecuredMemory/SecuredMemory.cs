@@ -22,7 +22,7 @@ namespace PixelSecurity.Modules.SecuredMemory
         public class ModuleOptions : IModuleConfig
         {
             // Memory Parameters
-            public float ColorEpsilon;
+            public float ColorEpsilon = 0.1f;
             public float FloatEpsilon = 0.0001f;
             public float Vector2Epsilon = 0.1f;
             public float Vector3Epsilon = 0.1f;
@@ -31,9 +31,8 @@ namespace PixelSecurity.Modules.SecuredMemory
             public byte Color32Epsilon = 1;
         }
         private ModuleOptions _options;
-
         public ModuleOptions Options => _options;
-        
+
         /// <summary>
         /// Secured Memory Module
         /// </summary>
@@ -42,6 +41,14 @@ namespace PixelSecurity.Modules.SecuredMemory
         {
             if (options == null)
                 _options = new ModuleOptions();
+            
+        }
+
+        /// <summary>
+        /// On Module Destoryed
+        /// </summary>
+        ~SecuredMemory()
+        {
             
         }
     }
