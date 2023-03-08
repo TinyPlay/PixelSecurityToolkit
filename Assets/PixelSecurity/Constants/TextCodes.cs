@@ -26,10 +26,13 @@ namespace PixelSecurity.Constants
         public const string PLAYER_PREFS_KEY_REQUIRED =
             "For serialization/deserialization object to player prefs you need to specify PlayerPrefs key name in the serializator object.";
 
+        public const string CHEATING_DETECTED = "Cheating Detected";
         public const string MEMORY_HACKING_DETECTED = "One of secured types was been changed in the game memory.";
         public const string INJECTION_HACKING_DETECTED = "Application Assembly Injection detected in the game assemblies.";
         public const string WALLHACK_DETECTED = "Wallhack Cheat Detected in the game lifecycle.";
         public const string TELEPORT_DETECTED = "Teleportation Detected for GameObject {0}. Available Distance per second {1}";
         public const string SPEEDHACK_DETECTED = "Speedhack Detected in the game timing system";
+        
+        public const string ACCEPT = "Accept";
     }
 }

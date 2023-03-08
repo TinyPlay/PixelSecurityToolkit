@@ -55,10 +55,22 @@ namespace PixelSecurity{
         /// </summary>
         private PixelGuard()
         {
-            
             CreateMonoWrapper();
+            
         }
 
+        #region UI Management
+        /// <summary>
+        /// Setup Automatic Detection UI
+        /// </summary>
+        public void SetupDetectionUI()
+        {
+            
+        }
+        
+        #endregion
+
+        #region Mono Wrapper
         /// <summary>
         /// Create Mono Wrapper
         /// </summary>
@@ -71,7 +83,9 @@ namespace PixelSecurity{
             GameObject _wrapperObject = new GameObject("__PIXEL_WRAPPER__");
             _monoWrapper = _wrapperObject.AddComponent<PixelMono>();
         }
+        #endregion
 
+        #region Modules Management
         /// <summary>
         /// Setup Security Module
         /// </summary>
@@ -128,7 +142,9 @@ namespace PixelSecurity{
                 }
             }
         }
+        #endregion
 
+        #region Event Fire
         /// <summary>
         /// Create Security Warning
         /// </summary>
@@ -151,5 +167,6 @@ namespace PixelSecurity{
             else
                 OnLoopUpdate?.Invoke(deltaTime);
         }
+        #endregion
     }
 }

@@ -14,10 +14,7 @@
 namespace PixelSecurity.UI
 {
     /// <summary>
-    /// UI Window Manager
+    /// UI Context
     /// </summary>
-    public class WindowManager
-    {
-        
-    }
+    public interface IContext { }
 }
