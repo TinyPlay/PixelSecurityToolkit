@@ -14,11 +14,7 @@
 namespace PixelSecurity.Core.Serializer
 {
     /// <summary>
-    /// Base Serializer Interface
+    /// Base Serialization Options
     /// </summary>
-    public interface ISerializer<TObject> where TObject : class
-    {
-        void SaveObject(TObject objectToSave);
-        TObject LoadObject(TObject objectToLoad = null);
-    }
+    public interface ISerializerOptions { }
 }
