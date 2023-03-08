@@ -1,7 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using JetBrains.Annotations;
 using PixelSecurity.Modules;
+using PixelSecurity.UI.CheatDetector;
 using PixelSecurity.Util;
 using UnityEngine;
 
@@ -43,7 +45,7 @@ namespace PixelSecurity{
         // Security Events
         public delegate void SecurityWarningHandler(string message, ISecurityModule module = null);     // Security Events
         [CanBeNull] public event SecurityWarningHandler OnSecurityMessage;                              // Security Message
-        
+
         // Lifecycle Events
         public delegate void GameLoopUpdate(float deltaTime);
         public delegate void GameLoopFixedUpdate(float deltaTime);
@@ -63,9 +65,14 @@ namespace PixelSecurity{
         /// <summary>
         /// Setup Automatic Detection UI
         /// </summary>
-        public void SetupDetectionUI()
+        private void SetupDetectionUI(Action onWindowClosed = null)
         {
-            
+            GameObject viewObject = GameObject.Instantiate(Resources.Load<GameObject>("Prefabs/CheatDetectionView"));
+            CheatDetectedView cheatUI = viewObject.GetComponent<CheatDetectedView>();
+            cheatUI.SetContext(new CheatDetectedView.Context
+            {
+                OnWindowClosed = onWindowClosed
+            });
         }
         
         #endregion

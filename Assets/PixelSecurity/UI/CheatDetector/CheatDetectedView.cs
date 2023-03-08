@@ -46,6 +46,7 @@ namespace PixelSecurity.UI.CheatDetector
         {
             _context = context;
             PixelGuard.Instance.OnSecurityMessage += OnCheatingDetected;
+            Hide();
         }
 
         /// <summary>
@@ -107,9 +108,11 @@ namespace PixelSecurity.UI.CheatDetector
             _acceptButton.onClick.RemoveAllListeners();
             _acceptButton.onClick.AddListener(() =>
             {
+                Hide();
                 onAccepted?.Invoke();
                 _context.OnWindowClosed?.Invoke();
             });
+            Show();
         }
     }
 }
