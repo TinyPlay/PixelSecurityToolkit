@@ -25,5 +25,7 @@ namespace PixelSecurity.Constants
         public const string EMPTY_PATH_SERIALIZER = "Serializer was an empty path in the options. Please, setup path to serialize / deserialize objects.";
         public const string PLAYER_PREFS_KEY_REQUIRED =
             "For serialization/deserialization object to player prefs you need to specify PlayerPrefs key name in the serializator object.";
+
+        public const string MEMORY_HACKING_DETECTED = "One of secured types was been changed in the game memory.";
     }
 }

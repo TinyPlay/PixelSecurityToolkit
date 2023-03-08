@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-
-/*
+﻿/*
  * Pixel Security Toolkit
  * This is the free and open-source security
  * library with different modules to secure your
@@ -13,18 +11,21 @@
  * @url             https://github.com/TinyPlay/PixelSecurityToolkit/
  * @support         hello@flowsourcebox.com
  */
-namespace PixelSecurity.Util
+
+using System;
+using PixelSecurity;
+using PixelSecurity.Modules.SecuredMemory;
+using UnityEngine;
+
+namespace Demo.Scripts
 {
     /// <summary>
-    /// Pixel Security Toolkit Mono Wrapper
+    /// Example Scene Controller with integrated Security Module
     /// </summary>
-    [DisallowMultipleComponent]
-    internal class PixelMono : MonoBehaviour
+    internal class ExampleController : MonoBehaviour
     {
-        private PixelGuard _securityInstance = null;
-
         /// <summary>
-        /// On Awake
+        /// On Scene Awake
         /// </summary>
         private void Awake()
         {
@@ -32,21 +33,15 @@ namespace PixelSecurity.Util
         }
 
         /// <summary>
-        /// On Start
+        /// On Scene Started
         /// </summary>
         private void Start()
         {
-            
-            // Infinite Life for this Object
-            DontDestroyOnLoad(this);
-        }
-        
-        /// <summary>
-        /// Setup Pixel Mono
-        /// </summary>
-        /// <param name="securityInstance"></param>
-        public void Setup(PixelGuard securityInstance)
-        {
+            // Setup Pixel Guard Modules
+            PixelGuard.Instance.SetupModule<SecuredMemory>(new SecuredMemory(new SecuredMemory.ModuleOptions
+            {
+                
+            }));
             
         }
     }
