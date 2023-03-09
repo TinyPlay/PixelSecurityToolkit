@@ -1,0 +1,9 @@
+﻿<b>Terms of Service</b>
+This is Terms of Service template.
+
+<b>You can change it at <color=red>"Assets/PixelSecurity/Resources/Templates/TermsOfUsage.txt"</color></b>
+
+Or Set your own text at module constructor configurations.
+
+<b>Documentation:</b>
+https://github.com/TinyPlay/PixelSecurityToolkit/wiki/Additional-Features

@@ -1,0 +1,9 @@
+﻿<b>Privacy Policy</b>
+This is privacy policy template.
+
+<b>You can change it at <color=red>"Assets/PixelSecurity/Resources/Templates/Privacy.txt"</color></b>
+
+Or Set your own text at module constructor configurations.
+
+<b>Documentation:</b>
+https://github.com/TinyPlay/PixelSecurityToolkit/wiki/Additional-Features
