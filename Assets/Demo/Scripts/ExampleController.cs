@@ -12,7 +12,10 @@
  * @support         hello@flowsourcebox.com
  */
 
+using System.Text;
 using PixelSecurity;
+using PixelSecurity.Core.Encryption;
+using PixelSecurity.Core.Serializer;
 using PixelSecurity.Modules.InjectionProtector;
 using PixelSecurity.Modules.PrivacyAccepter;
 using PixelSecurity.Modules.SecuredMemory;

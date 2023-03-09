@@ -45,6 +45,8 @@ namespace PixelSecurity.Core.Serializer
             // Check Options
             if (options == null)
                 _options = new SerializationOptions();
+            else
+                _options = options;
             
             // Check Base Path
             if (_options != null && string.IsNullOrEmpty(_options.Path))
