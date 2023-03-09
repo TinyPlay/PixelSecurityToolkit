@@ -14,11 +14,18 @@
 namespace PixelSecurity.Models
 {
     /// <summary>
-    /// Pixel Security Toolkit Options
+    /// Network Time Response
     /// </summary>
     [System.Serializable]
-    public class PixelGuardOptions
+    public class NetworkTimeResponse
     {
-        public bool IsAutoUI = true;
+        public string abbreviation = "";
+        public string client_ip = "";
+        public string datetime = "";
+        public int day_of_week = 0;
+        public int day_of_year = 0;
+        public bool dst = false;
+        public int raw_offset = 0;
+        public int unixtime = 0;
     }
 }

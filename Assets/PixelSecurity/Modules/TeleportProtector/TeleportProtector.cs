@@ -151,7 +151,7 @@ namespace PixelSecurity.Modules.TeleportProtector
         /// <param name="target"></param>
         private void DetectTeleport(TeleportTarget target){
             string teleportMessage = String.Format(TextCodes.TELEPORT_DETECTED, target.TargetTransform.gameObject.name, target.MaxDistancePerSecond);
-            PixelGuard.Instance.CreateSecurityWarning(teleportMessage);
+            PixelGuard.Instance.CreateSecurityWarning(teleportMessage, this);
         }
     }
 }

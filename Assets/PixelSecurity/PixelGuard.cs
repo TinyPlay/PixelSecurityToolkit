@@ -2,6 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using JetBrains.Annotations;
+using PixelSecurity.Constants;
+using PixelSecurity.Models;
 using PixelSecurity.Modules;
 using PixelSecurity.UI.CheatDetector;
 using PixelSecurity.Util;
@@ -39,6 +41,7 @@ namespace PixelSecurity{
         }
         
         // Mono Wrapper
+        private PixelGuardOptions _toolkitSetup;
         private PixelMono _monoWrapper = null;
         private List<ISecurityModule> _modules = new List<ISecurityModule>();
 
@@ -51,6 +54,9 @@ namespace PixelSecurity{
         public delegate void GameLoopFixedUpdate(float deltaTime);
         [CanBeNull] public event GameLoopUpdate OnLoopUpdate;
         [CanBeNull] public event GameLoopFixedUpdate OnLoopFixedUpdate;
+        
+        // Other parameters
+        private bool _hasUI = false;
 
         /// <summary>
         /// Security Wrapper Constructor
@@ -58,7 +64,27 @@ namespace PixelSecurity{
         private PixelGuard()
         {
             CreateMonoWrapper();
+            PreloadToolkitSetup();
+        }
+
+        /// <summary>
+        /// Preload Toolkit Setup
+        /// </summary>
+        private void PreloadToolkitSetup()
+        {
+            // Load Data
+            TextAsset loadedData = Resources.Load<TextAsset>(GlobalConstants.ConfigResourcePath);
+            if (loadedData == null || string.IsNullOrEmpty(loadedData.text))
+                return;
             
+            // Convert from JSON
+            _toolkitSetup = JsonUtility.FromJson<PixelGuardOptions>(loadedData.text);
+            if (_toolkitSetup == null)
+                return;
+            
+            // Check Auto UI
+            if(_toolkitSetup.IsAutoUI)
+                SetupDetectionUI();
         }
 
         #region UI Management
@@ -67,12 +93,16 @@ namespace PixelSecurity{
         /// </summary>
         private void SetupDetectionUI(Action onWindowClosed = null)
         {
+            if(_hasUI)
+                return;
+            
             GameObject viewObject = GameObject.Instantiate(Resources.Load<GameObject>("Prefabs/CheatDetectionView"));
             CheatDetectedView cheatUI = viewObject.GetComponent<CheatDetectedView>();
             cheatUI.SetContext(new CheatDetectedView.Context
             {
                 OnWindowClosed = onWindowClosed
             });
+            _hasUI = true;
         }
         
         #endregion
@@ -87,8 +117,17 @@ namespace PixelSecurity{
                 return;
 
             // Create Mono Wrapper
-            GameObject _wrapperObject = new GameObject("__PIXEL_WRAPPER__");
-            _monoWrapper = _wrapperObject.AddComponent<PixelMono>();
+            GameObject wrapperObject = new GameObject("__PIXEL_WRAPPER__");
+            _monoWrapper = wrapperObject.AddComponent<PixelMono>();
+        }
+
+        /// <summary>
+        /// Invoke Coroutine at mono wrapper
+        /// </summary>
+        /// <param name="coroutine"></param>
+        public void InvokeCoroutine(IEnumerator coroutine)
+        {
+            _monoWrapper.InvokeCoroutine(coroutine);
         }
         #endregion
 

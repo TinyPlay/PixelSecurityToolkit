@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using UnityEngine;
 
 /*
@@ -54,6 +55,15 @@ namespace PixelSecurity.Util
         private void FixedUpdate()
         {
             PixelGuard.Instance.CallGameLoop(true, Time.fixedDeltaTime);
+        }
+
+        /// <summary>
+        /// Invoke Coroutine
+        /// </summary>
+        /// <param name="coroutine"></param>
+        public void InvokeCoroutine(IEnumerator coroutine)
+        {
+            StartCoroutine(coroutine);
         }
     }
 }

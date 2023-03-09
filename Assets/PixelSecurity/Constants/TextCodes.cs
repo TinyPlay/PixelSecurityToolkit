@@ -32,6 +32,7 @@ namespace PixelSecurity.Constants
         public const string WALLHACK_DETECTED = "Wallhack Cheat Detected in the game lifecycle.";
         public const string TELEPORT_DETECTED = "Teleportation Detected for GameObject {0}. Available Distance per second {1}";
         public const string SPEEDHACK_DETECTED = "Speedhack Detected in the game timing system";
+        public const string TIMECHANGE_DETECTED = "It looks like you changed the time on the device. Please change the date and time settings.";
         
         public const string ACCEPT = "Accept";
     }
