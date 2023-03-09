@@ -48,7 +48,7 @@ namespace Demo.Scripts
         {
             // Setup Memory Protector
             SecuredMemory memoryProtector = (SecuredMemory)PixelGuard.Instance.SetupModule<SecuredMemory>(new SecuredMemory());
-            
+
             // Setup Injection Protector
             InjectionProtector injectionProtector = (InjectionProtector)PixelGuard.Instance.SetupModule<InjectionProtector>(new InjectionProtector());
             
