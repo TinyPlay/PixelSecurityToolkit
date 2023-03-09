@@ -1,5 +1,6 @@
 ﻿using System;
 using PixelSecurity.Constants;
+using PixelSecurity.Handlers;
 using UnityEngine;
 
 namespace PixelSecurity.Modules.SpeedHackProtector
@@ -41,6 +42,8 @@ namespace PixelSecurity.Modules.SpeedHackProtector
         {
             if (options == null)
                 _options = new ModuleOptions();
+            else
+                _options = options;
             
             _interval = _options.CheckInterval;
             _maxFalsePositives = _options.MaxFalsePositives;
@@ -62,7 +65,7 @@ namespace PixelSecurity.Modules.SpeedHackProtector
         /// </summary>
         private void InitProtector()
         {
-            PixelGuard.Instance.OnLoopUpdate += OnUpdate;
+            PixelGuard.Instance.OnLoopUpdate.AddListener(OnUpdate);
             ResetStartTicks();
             _currentFalsePositives = 0;
             _currentCooldownShots = 0;
@@ -84,7 +87,7 @@ namespace PixelSecurity.Modules.SpeedHackProtector
         /// </summary>
         private void DisposeProtector()
         {
-            PixelGuard.Instance.OnLoopUpdate -= OnUpdate;
+            PixelGuard.Instance.OnLoopUpdate.RemoveListener(OnUpdate);
         }
 
         /// <summary>
@@ -100,8 +103,8 @@ namespace PixelSecurity.Modules.SpeedHackProtector
         /// <summary>
         /// On Game Loop Update
         /// </summary>
-        /// <param name="deltaTime"></param>
-        private void OnUpdate(float deltaTime)
+        /// <param name="handler"></param>
+        private void OnUpdate(DeltaTimeHandler handler)
         {
             long ticks = DateTime.UtcNow.Ticks;
             long ticksSpentSinceLastUpdate = ticks - _prevTicks;

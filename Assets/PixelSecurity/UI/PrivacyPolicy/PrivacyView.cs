@@ -11,16 +11,39 @@
  * @url             https://github.com/TinyPlay/PixelSecurityToolkit/
  * @support         hello@flowsourcebox.com
  */
+
+using System;
+using PixelSecurity.Constants;
+using UnityEngine;
+using UnityEngine.UI;
+
 namespace PixelSecurity.UI.PrivacyPolicy
 {
     /// <summary>
     /// Privacy View
     /// </summary>
-    internal class PrivacyView
+    internal class PrivacyView : BaseView
     {
         // UI Context
-        public struct Context : IContext { }
+        public struct Context : IContext
+        {
+            public string WindowHeadlineText;
+            public string PrivacyText;
+            public string AcceptButtonText;
+            public string UrlButtonText;
+            public string PrivacyUrl;
+            public Action OnAccepted;
+            public Action OnUrlClicked;
+        }
         private Context _context;
+        
+        [Header("UI References")] 
+        [SerializeField] private Text _headline;
+        [SerializeField] private Text _message;
+        [SerializeField] private Button _acceptButton;
+        [SerializeField] private Text _acceptButtonText;
+        [SerializeField] private Button _goUrlButton;
+        [SerializeField] private Text _goButtonText;
         
         /// <summary>
         /// Set UI Context
@@ -29,7 +52,6 @@ namespace PixelSecurity.UI.PrivacyPolicy
         public void SetContext(Context context)
         {
             _context = context;
-            
         }
         
         /// <summary>
@@ -38,6 +60,35 @@ namespace PixelSecurity.UI.PrivacyPolicy
         private void OnDestroy()
         {
             
+        }
+        
+        /// <summary>
+        /// Update View
+        /// </summary>
+        public void UpdateView()
+        {
+            // Setup Texts
+            _headline.text = _context.WindowHeadlineText ?? "Privacy Policy";
+            _message.text = string.IsNullOrEmpty(_context.PrivacyText) ? Resources.Load<TextAsset>("Templates/Privacy").text : _context.PrivacyText;
+            _acceptButtonText.text = _context.AcceptButtonText ?? TextCodes.ACCEPT;
+            _goButtonText.text = _context.UrlButtonText ?? TextCodes.READ_MORE;
+            
+            
+            // Add Listeners
+            _acceptButton.onClick.RemoveAllListeners();
+            _acceptButton.onClick.AddListener(() =>
+            {
+                Hide();
+                _context.OnAccepted?.Invoke();
+            });
+            _goUrlButton.onClick.RemoveAllListeners();
+            _goUrlButton.onClick.AddListener(() =>
+            {
+                _context.OnUrlClicked?.Invoke();
+                Application.OpenURL(_context.PrivacyUrl);
+            });
+            Show();
+            Canvas.ForceUpdateCanvases();
         }
     }
 }

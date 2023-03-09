@@ -14,7 +14,7 @@
 
 using System;
 using PixelSecurity.Constants;
-using PixelSecurity.Modules;
+using PixelSecurity.Handlers;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -45,8 +45,15 @@ namespace PixelSecurity.UI.CheatDetector
         public void SetContext(Context context)
         {
             _context = context;
-            PixelGuard.Instance.OnSecurityMessage += OnCheatingDetected;
             Hide();
+        }
+
+        /// <summary>
+        /// On Started
+        /// </summary>
+        private void Start()
+        {
+            PixelGuard.Instance.OnSecurityMessage.AddListener(OnCheatingDetected);
         }
 
         /// <summary>
@@ -54,17 +61,17 @@ namespace PixelSecurity.UI.CheatDetector
         /// </summary>
         private void OnDestroy()
         {
-            PixelGuard.Instance.OnSecurityMessage -= OnCheatingDetected;
+            PixelGuard.Instance.OnSecurityMessage.RemoveListener(OnCheatingDetected);
         }
 
         /// <summary>
         /// Cheating Detected
         /// </summary>
-        /// <param name="message"></param>
-        /// <param name="module"></param>
-        private void OnCheatingDetected(string message, ISecurityModule module)
+        /// <param name="handler"></param>
+        private void OnCheatingDetected(SecurityWarningHandler handler)
         {
-            UpdateView(TextCodes.CHEATING_DETECTED, message, ()=>{}, TextCodes.ACCEPT);
+            Debug.LogWarning("Cheating Detected Window Shown: " + handler.message + " From Module: "+handler.module.ToString());
+            UpdateView(TextCodes.CHEATING_DETECTED, handler.message, ()=>{}, TextCodes.ACCEPT);
         }
 
         /// <summary>

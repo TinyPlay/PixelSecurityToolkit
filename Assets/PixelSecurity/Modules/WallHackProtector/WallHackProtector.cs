@@ -13,6 +13,7 @@
  */
 
 using PixelSecurity.Constants;
+using PixelSecurity.Handlers;
 using UnityEngine;
 
 namespace PixelSecurity.Modules.WallHackProtector
@@ -60,6 +61,8 @@ namespace PixelSecurity.Modules.WallHackProtector
         {
             if (options == null)
                 _options = new ModuleOptions();
+            else
+                _options = options;
 
             _spawnPosition = _options.ModuleSpawn;
             InitDetector();
@@ -85,8 +88,8 @@ namespace PixelSecurity.Modules.WallHackProtector
             StartRigidModule();
             StartControllerModule();
 
-            PixelGuard.Instance.OnLoopUpdate += OnUpdate;
-            PixelGuard.Instance.OnLoopFixedUpdate += OnFixedUpdate;
+            PixelGuard.Instance.OnLoopUpdate.AddListener(OnUpdate);
+            PixelGuard.Instance.OnLoopFixedUpdate.AddListener(OnFixedUpdate);
         }
         
         /// <summary>
@@ -94,8 +97,8 @@ namespace PixelSecurity.Modules.WallHackProtector
         /// </summary>
         private void DisposeDetector()
         {
-            PixelGuard.Instance.OnLoopUpdate -= OnUpdate;
-            PixelGuard.Instance.OnLoopFixedUpdate -= OnFixedUpdate;
+            PixelGuard.Instance.OnLoopUpdate.RemoveListener(OnUpdate);
+            PixelGuard.Instance.OnLoopFixedUpdate.RemoveListener(OnFixedUpdate);
             
             StopRigidModule();
             StopControllerModule();
@@ -105,10 +108,10 @@ namespace PixelSecurity.Modules.WallHackProtector
         /// <summary>
         /// On Game Loop Update
         /// </summary>
-        /// <param name="deltaTime"></param>
-        private void OnUpdate(float deltaTime)
+        /// <param name="handler"></param>
+        private void OnUpdate(DeltaTimeHandler handler)
         {
-            if(!_invoked) InvokeDetector(deltaTime);
+            if(!_invoked) InvokeDetector(handler.DeltaTime);
             if (_charControllerVelocity > 0)
             {
                 _charControllerPlayer.Move(new Vector3(Random.Range(-0.002f, 0.002f), 0, _charControllerVelocity));
@@ -128,8 +131,8 @@ namespace PixelSecurity.Modules.WallHackProtector
         /// <summary>
         /// On GameLoop Fixed Update
         /// </summary>
-        /// <param name="deltaTime"></param>
-        private void OnFixedUpdate(float deltaTime)
+        /// <param name="handler"></param>
+        private void OnFixedUpdate(DeltaTimeHandler handler)
         {
             if (_rigidPlayer.transform.localPosition.z > 1f)
             {

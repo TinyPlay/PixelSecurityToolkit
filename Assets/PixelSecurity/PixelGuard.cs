@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using JetBrains.Annotations;
 using PixelSecurity.Constants;
+using PixelSecurity.Core.Events;
+using PixelSecurity.Handlers;
 using PixelSecurity.Models;
 using PixelSecurity.Modules;
 using PixelSecurity.UI.CheatDetector;
@@ -46,15 +48,12 @@ namespace PixelSecurity{
         private List<ISecurityModule> _modules = new List<ISecurityModule>();
 
         // Security Events
-        public delegate void SecurityWarningHandler(string message, ISecurityModule module = null);     // Security Events
-        [CanBeNull] public event SecurityWarningHandler OnSecurityMessage;                              // Security Message
+        public IGameEvent<SecurityWarningHandler> OnSecurityMessage = new GameEvent<SecurityWarningHandler>();
 
         // Lifecycle Events
-        public delegate void GameLoopUpdate(float deltaTime);
-        public delegate void GameLoopFixedUpdate(float deltaTime);
-        [CanBeNull] public event GameLoopUpdate OnLoopUpdate;
-        [CanBeNull] public event GameLoopFixedUpdate OnLoopFixedUpdate;
-        
+        public IGameEvent<DeltaTimeHandler> OnLoopUpdate = new GameEvent<DeltaTimeHandler>();
+        public IGameEvent<DeltaTimeHandler> OnLoopFixedUpdate = new GameEvent<DeltaTimeHandler>();
+
         // Other parameters
         private bool _hasUI = false;
 
@@ -98,13 +97,13 @@ namespace PixelSecurity{
             
             GameObject viewObject = GameObject.Instantiate(Resources.Load<GameObject>("Prefabs/CheatDetectionView"));
             CheatDetectedView cheatUI = viewObject.GetComponent<CheatDetectedView>();
+            cheatUI.SetAsGlobalView();
             cheatUI.SetContext(new CheatDetectedView.Context
             {
                 OnWindowClosed = onWindowClosed
             });
             _hasUI = true;
         }
-        
         #endregion
 
         #region Mono Wrapper
@@ -198,7 +197,11 @@ namespace PixelSecurity{
         /// <param name="module"></param>
         public void CreateSecurityWarning(string message, ISecurityModule module = null)
         {
-            OnSecurityMessage?.Invoke(message, module);
+            OnSecurityMessage?.Invoke(new SecurityWarningHandler
+            {
+                message = message,
+                module = module
+            }, false);
         }
 
         /// <summary>
@@ -209,9 +212,15 @@ namespace PixelSecurity{
         public void CallGameLoop(bool isFixed, float deltaTime)
         {
             if(isFixed)
-                OnLoopFixedUpdate?.Invoke(deltaTime);
+                OnLoopFixedUpdate?.Invoke(new DeltaTimeHandler
+                {
+                    DeltaTime = deltaTime
+                }, false);
             else
-                OnLoopUpdate?.Invoke(deltaTime);
+                OnLoopUpdate?.Invoke(new DeltaTimeHandler
+                {
+                    DeltaTime = deltaTime
+                }, false);
         }
         #endregion
     }

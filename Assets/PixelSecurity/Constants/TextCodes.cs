@@ -35,5 +35,6 @@ namespace PixelSecurity.Constants
         public const string TIMECHANGE_DETECTED = "It looks like you changed the time on the device. Please change the date and time settings.";
         
         public const string ACCEPT = "Accept";
+        public const string READ_MORE = "Read More";
     }
 }

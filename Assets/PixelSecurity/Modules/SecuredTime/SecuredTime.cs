@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Reflection;
 using PixelSecurity.Constants;
+using PixelSecurity.Handlers;
 using PixelSecurity.Models;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -45,6 +46,8 @@ namespace PixelSecurity.Modules.SecuredTime
         {
             if (options == null)
                 _options = new ModuleOptions();
+            else
+                _options = options;
             
             // Setup Configuration
             _timeCheckInterval = _options.CheckInterval;
@@ -69,7 +72,7 @@ namespace PixelSecurity.Modules.SecuredTime
         /// </summary>
         private void InitProtector()
         {
-            PixelGuard.Instance.OnLoopUpdate += OnUpdate;
+            PixelGuard.Instance.OnLoopUpdate.AddListener(OnUpdate);
         }
 
         /// <summary>
@@ -77,14 +80,14 @@ namespace PixelSecurity.Modules.SecuredTime
         /// </summary>
         private void DisposeProtector()
         {
-            PixelGuard.Instance.OnLoopUpdate -= OnUpdate;
+            PixelGuard.Instance.OnLoopUpdate.RemoveListener(OnUpdate);
         }
         
         /// <summary>
         /// On Game Loop Update
         /// </summary>
-        /// <param name="deltaTime"></param>
-        private void OnUpdate(float deltaTime)
+        /// <param name="handler"></param>
+        private void OnUpdate(DeltaTimeHandler handler)
         {
             if (_checkTimer <= 0f)
             {
@@ -93,7 +96,7 @@ namespace PixelSecurity.Modules.SecuredTime
             }
             else
             {
-                _checkTimer -= deltaTime;
+                _checkTimer -= handler.DeltaTime;
             }
         }
 

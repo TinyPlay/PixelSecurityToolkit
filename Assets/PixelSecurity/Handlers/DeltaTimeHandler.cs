@@ -11,15 +11,13 @@
  * @url             https://github.com/TinyPlay/PixelSecurityToolkit/
  * @support         hello@flowsourcebox.com
  */
-namespace PixelSecurity.Models
+namespace PixelSecurity.Handlers
 {
     /// <summary>
-    /// Pixel Security Toolkit Options
+    /// Delta Time Handler
     /// </summary>
-    [System.Serializable]
-    public class PixelGuardOptions
+    public struct DeltaTimeHandler
     {
-        public bool IsAutoUI = true;
-        
+        public float DeltaTime;
     }
 }

@@ -24,6 +24,7 @@ namespace PixelSecurity.Editor
     /// <summary>
     /// Pixel Security Toolkit Wizard
     /// </summary>
+    [InitializeOnLoad]
     public class ToolkitWizard : EditorWindow
     {
         // Window Scroll
@@ -35,7 +36,7 @@ namespace PixelSecurity.Editor
         private PixelGuardOptions _options = new PixelGuardOptions();
         private bool _enableInjectionDetector = false;
         private bool _isAutoUI = false;
-        
+
         /// <summary>
         /// Show SDK Setup Window
         /// </summary>

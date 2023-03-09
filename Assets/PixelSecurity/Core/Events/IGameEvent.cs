@@ -11,15 +11,16 @@
  * @url             https://github.com/TinyPlay/PixelSecurityToolkit/
  * @support         hello@flowsourcebox.com
  */
-namespace PixelSecurity.Models
+namespace PixelSecurity.Core.Events
 {
     /// <summary>
-    /// Pixel Security Toolkit Options
+    /// Base Game Event Interface
     /// </summary>
-    [System.Serializable]
-    public class PixelGuardOptions
-    {
-        public bool IsAutoUI = true;
-        
-    }
+    public interface IGameEvent : IEvent, IListener, IInvoker { }
+    
+    /// <summary>
+    /// Base Game Event Interface with Arguments
+    /// </summary>
+    /// <typeparam name="TArgs"></typeparam>
+    public interface IGameEvent<TArgs> : IEvent, IListener<TArgs>, IInvoker<TArgs> { }
 }

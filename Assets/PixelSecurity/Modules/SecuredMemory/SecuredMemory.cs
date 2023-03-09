@@ -41,15 +41,8 @@ namespace PixelSecurity.Modules.SecuredMemory
         {
             if (options == null)
                 _options = new ModuleOptions();
-            
-        }
-
-        /// <summary>
-        /// On Module Destoryed
-        /// </summary>
-        ~SecuredMemory()
-        {
-            
+            else
+                _options = options;
         }
     }
 }

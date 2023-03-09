@@ -15,6 +15,7 @@
 using System;
 using System.Collections.Generic;
 using PixelSecurity.Constants;
+using PixelSecurity.Handlers;
 using UnityEngine;
 
 namespace PixelSecurity.Modules.TeleportProtector
@@ -30,7 +31,7 @@ namespace PixelSecurity.Modules.TeleportProtector
         public ModuleOptions Options => _options;
 
         // Teleport Seek Targets
-        private bool _isSeeking = false;
+        private bool _isSeeking = true;
         private List<TeleportTarget> _seekTargets = new List<TeleportTarget>();
         private float _seekTimer = 1f;
         
@@ -42,6 +43,8 @@ namespace PixelSecurity.Modules.TeleportProtector
         {
             if (options == null)
                 _options = new ModuleOptions();
+            else
+                _options = options;
 
             InitProtector();
         }
@@ -60,7 +63,7 @@ namespace PixelSecurity.Modules.TeleportProtector
         private void InitProtector()
         {
             _seekTimer = 1f;
-            PixelGuard.Instance.OnLoopUpdate += OnUpdate;
+            PixelGuard.Instance.OnLoopUpdate.AddListener(OnUpdate);
         }
 
         /// <summary>
@@ -68,14 +71,14 @@ namespace PixelSecurity.Modules.TeleportProtector
         /// </summary>
         private void DisposeProtector()
         {
-            PixelGuard.Instance.OnLoopUpdate -= OnUpdate;
+            PixelGuard.Instance.OnLoopUpdate.RemoveListener(OnUpdate);
         }
         
         /// <summary>
         /// On Game Loop Update
         /// </summary>
-        /// <param name="deltaTime"></param>
-        private void OnUpdate(float deltaTime)
+        /// <param name="handler"></param>
+        private void OnUpdate(DeltaTimeHandler handler)
         {
             if (_seekTimer <= 0f)
             {
@@ -84,7 +87,7 @@ namespace PixelSecurity.Modules.TeleportProtector
             }
             else
             {
-                _seekTimer -= deltaTime;
+                _seekTimer -= handler.DeltaTime;
             }
         }
 
@@ -98,8 +101,8 @@ namespace PixelSecurity.Modules.TeleportProtector
                 if (Vector3.Distance(_seekTargets[i].TargetTransform.position, _seekTargets[i].LastPosition) >
                     _seekTargets[i].MaxDistancePerSecond)
                     DetectTeleport(_seekTargets[i]);
-                else
-                    _seekTargets[i].LastPosition = _seekTargets[i].TargetTransform.position;
+                
+                _seekTargets[i].LastPosition = _seekTargets[i].TargetTransform.position;
             }
         }
 

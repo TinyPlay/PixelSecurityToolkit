@@ -64,6 +64,8 @@ namespace PixelSecurity.Modules.InjectionProtector
         {
             if (options == null)
                 _options = new ModuleOptions();
+            else
+                _options = options;
 
             if (_options.AllowedAssemblies != null && _options.AllowedAssemblies.Length > 0)
                 _allowedAssemblies = _options.AllowedAssemblies;

@@ -11,15 +11,16 @@
  * @url             https://github.com/TinyPlay/PixelSecurityToolkit/
  * @support         hello@flowsourcebox.com
  */
-namespace PixelSecurity.Models
+namespace PixelSecurity.Core.Events
 {
     /// <summary>
-    /// Pixel Security Toolkit Options
+    /// Base Event Interface
     /// </summary>
-    [System.Serializable]
-    public class PixelGuardOptions
+    public interface IEvent
     {
-        public bool IsAutoUI = true;
-        
+        /// <summary>
+        /// Remove All Listeners
+        /// </summary>
+        void RemoveAllListeners();
     }
 }
