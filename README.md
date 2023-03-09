@@ -12,7 +12,6 @@ This is the simple and complex security toolkit for your game with different mod
 - Secured Time with Network Comparsion;
 - Protected Network Module;
 - Privacy Policy and Terms and Services Module;
-- Simple Bad Word Filter with English Words Database;
 - Easy to Edit and Use UI for All Nessessary Modules;
 - JSON, XML, PlayerPrefs and Binary Object serializers with Encryption support;
 - Easy to Use encryption classes with AES, DES, XOR, MD5, SHA1/SHA256/SHA512, RSA, xxHash, Base64 Encryption / Decryption for any string / byte arrays;
